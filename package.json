@@ -1,0 +1,30 @@
+{
+  "name": "yashasvm-card",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "yashasvm": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "figlet": "^1.10.0",
+    "ink": "^4.0.0",
+    "meow": "^11.0.0",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.7.0",
+    "@types/ink-big-text": "^1.2.4",
+    "@types/ink-gradient": "^2.0.4",
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^5.0.0"
+  }
+}
