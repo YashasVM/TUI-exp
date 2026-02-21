@@ -1,6 +1,6 @@
 {
-  "name": "yashasvm-card",
-  "version": "1.0.0",
+  "name": "yashasvm",
+  "version": "1.0.1",
   "type": "module",
   "main": "dist/cli.js",
   "bin": {

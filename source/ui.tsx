@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Text, Box } from 'ink';
+import { Text, Box, useStdout } from 'ink';
 import figlet from 'figlet';
 
 // Custom component for stable links without re-renders
@@ -12,17 +12,26 @@ const TerminalLink: FC<{ url: string; children: React.ReactNode }> = ({ url, chi
 };
 
 const App: FC<{ name?: string }> = ({ name = 'Yashas.VM' }) => {
-    // Attempt to use 'Slant' font if available, fallback to standard or handle gracefully
-    // Note: 'Slant' is standard in figlet but good to be safe.
-    const font = 'Slant';
-    const text = figlet.textSync(name, { font });
+    const { stdout } = useStdout();
+    const safeTerminalWidth = stdout.columns || 80;
+    const cardWidth = Math.max(20, Math.min(safeTerminalWidth - 1, 100));
+    const innerWidth = Math.max(20, cardWidth - 4);
+    const divider = '-'.repeat(innerWidth);
+
+    const font = innerWidth >= 70 ? 'Slant' : innerWidth >= 55 ? 'Standard' : 'Small';
+    let text = name;
+    try {
+        text = figlet.textSync(name, { font, width: innerWidth });
+    } catch {
+        text = name;
+    }
 
     return (
-        <Box flexDirection="column" padding={1} borderStyle="round" borderColor="cyan" width={80}>
+        <Box flexDirection="column" padding={1} borderStyle="round" borderColor="cyan" width={cardWidth}>
             {/* Header Area */}
             <Box flexDirection="column" marginBottom={1}>
                 <Text color="cyan">{text}</Text>
-                <Text dimColor>----------------------------------------------------------------------------</Text>
+                <Text dimColor>{divider}</Text>
             </Box>
 
             {/* Intro Section */}
@@ -145,7 +154,7 @@ const App: FC<{ name?: string }> = ({ name = 'Yashas.VM' }) => {
             </Box>
 
             <Box marginTop={1} justifyContent="center">
-                <Text dimColor>----------------------------------------------------------------------------</Text>
+                <Text dimColor>{divider}</Text>
             </Box>
              <Box justifyContent="center">
                 <Text color="green">yashas.vm:~$ </Text>
